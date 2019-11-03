@@ -37,13 +37,13 @@ app.get('/', function (req, res) {
 app.get('/authorize', function (req, res) {
   var authCode = req.query.code;
   if (authCode) {
-    console.log('');
+    console.log(tokenReceived);
     console.log('Retrieved auth code in /authorize: ' + authCode);
     authHelper.getTokenFromCode(authCode, tokenReceived, req, res);
   } else {
     // redirect to home
     console.log('/authorize called without a code parameter, redirecting to login');
-    res.redirect('/');
+    res.redirect('http://localhost:8080/login');
   }
 });
 
@@ -57,6 +57,7 @@ function tokenReceived(req, res, error, token) {
     req.session.refresh_token = token.token.refresh_token;
     req.session.email = authHelper.getEmailFromIdToken(token.token.id_token);
     res.redirect('/logincomplete');
+    console.log('calling login complete');
   }
 }
 
@@ -67,15 +68,11 @@ app.get('/logincomplete', function (req, res) {
 
   if (access_token === undefined || refresh_token === undefined) {
     console.log('/logincomplete called while not logged in');
-    res.redirect('/');
+    res.redirect('http://localhost:8080/login');
     return;
   }
-  res.send({
-    email: email,
-    access_token: access_token,
-    refresh_token
-  });
-  // res.send(pages.loginCompletePage(email));
+  res.redirect('http://localhost:8080/dashboard?token=' + access_token);
+  console.log('send');
 });
 
 app.get('/refreshtokens', function (req, res) {
