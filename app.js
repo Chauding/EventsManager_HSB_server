@@ -14,6 +14,9 @@ var outlook = require('node-outlook');
 var pages = require('./pages');
 var authHelper = require('./authHelper');
 
+// require routes folder
+const users = require('../routes.users.js');
+
 // Configure express
 // Set up rendering of static files
 app.use(express.static('static'));
@@ -27,9 +30,15 @@ app.use(session({
   saveUninitialized: false
 }));
 
-// Home page
+// midddlewares
+app.use(logger('dev'));
+app.use(bodyParser.json());
+
+// Routes 
+app.use('/users', users);
+
+// Get the URl for OAuth loggin
 app.get('/', function (req, res) {
-  // res.send(pages.loginPage(authHelper.getAuthUrl()));
   var urls = authHelper.getAuthUrl();
   res.send(urls);
 });
@@ -87,7 +96,7 @@ app.get('/refreshtokens', function (req, res) {
 
 app.get('/logout', function (req, res) {
   req.session.destroy();
-  res.redirect('/');
+  res.redirect('http://localhost:8080/login');
 });
 
 app.get('/sync', function (req, res) {
@@ -253,6 +262,25 @@ app.get('/deleteitem', function (req, res) {
       res.send(error);
     } else {
       res.redirect('/sync');
+    }
+  });
+});
+
+//catch 404 errors and forward them to error handler
+app.use((req, res, next) => {
+  const err = new Error('Not Found');
+  err.status = 404;
+  next(err);
+})
+
+//Error handler function
+appp.use((err, req, res, next) => {
+  const err = app.get('env') === 'development' ? err : {};
+  const status = err.status || 500;
+
+  res.status(status).json({
+    error: {
+      message: error.message
     }
   });
 });
