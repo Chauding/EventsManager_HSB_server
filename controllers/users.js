@@ -26,7 +26,7 @@ module.exports = {
       userId
     } = req.params;
     const newUser = req.body;
-    const resuult = await User.findByIdAndUpdate(userId, newUser);
+    const result = await User.findByIdAndUpdate(userId, newUser);
     res.status(200).json({
       success: true
     });
