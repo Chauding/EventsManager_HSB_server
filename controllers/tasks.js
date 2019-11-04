@@ -1,5 +1,5 @@
 const Task = require('../models/task');
-const User = require('../models/user');
+const User = require('../models/Schemas');
 const Skill = require('../models/skill');
 module.exports = {
   index: async (req, res, next) => {
@@ -24,8 +24,8 @@ module.exports = {
   getTaskByUser: async(req,res,next)=>{
     const{
         taskId
-        
     } = req.params;
     const task = await Task.findById(taskId);
     console.log('task', task)
-},
+    },
+}

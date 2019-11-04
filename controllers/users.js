@@ -1,5 +1,6 @@
-const User = require('../models/user');
+const User = require('../models/Schemas');
 const Skill = require('../models/skill');
+const Event = require('../models/event');
 module.exports = {
   index: async (req, res, next) => {
     const users = await User.find({});
@@ -9,7 +10,7 @@ module.exports = {
   newUser: async (req, res, next) => {
     const newUser = new User(req.body);
     const user = await newUser.save();
-    res.status(201).json(user);
+    res.status(200).json(user);
   },
 
   getUser: async (req, res, next) => {
@@ -26,7 +27,7 @@ module.exports = {
       userId
     } = req.params;
     const newUser = req.body;
-    const result = await User.findByIdAndUpdate(userId, newUser);
+    const resuult = await User.findByIdAndUpdate(userId, newUser);
     res.status(200).json({
       success: true
     });
@@ -54,11 +55,12 @@ module.exports = {
     console.log('user', user)
   },
 
-  getUserEvents: async (req, res, next) => {
-    const {
-      userId
-    } = req.params;
-    const user = await User.findById(userId)
+  getUserCalendar: async (req, res, next) => {
+    // const {
+    //   eventId: [{ type: Schema.Types.ObjectId, ref: 'event'}]
+    // } = req.params;
+    // const user = await User.findById(userId)
+
     console.log('user', user)
   },
 

@@ -15,7 +15,7 @@ var pages = require('./pages');
 var authHelper = require('./authHelper');
 
 // require routes folder
-//const users = require('../routes.users.js');
+const users = require('../routes/users.js');
 
 // Configure express
 // Set up rendering of static files
@@ -35,7 +35,7 @@ app.use(session({
 app.use(bodyParser.json());
 
 // Routes 
-//app.use('/users', users);
+app.use('/users', users);
 
 // Get the URl for OAuth loggin
 app.get('/', function (req, res) {
@@ -267,23 +267,23 @@ app.get('/deleteitem', function (req, res) {
 });
 
 //catch 404 errors and forward them to error handler
-app.use((req, res, next) => {
-  const err = new Error('Not Found');
-  err.status = 404;
-  next(err);
-})
+// app.use((req, res, next) => {
+//   const err = new Error('Not Found');
+//   err.status = 404;
+//   next(err);
+// })
 
-//Error handler function
-app.use((errs, req, res, next) => {
-  const err = app.get('env') === 'development' ? err : {};
-  const status = err.status || 500;
+// //Error handler function
+// app.use((errs, req, res, next) => {
+//   const err = app.get('env') === 'development' ? err : {};
+//   const status = err.status || 500;
 
-  res.status(status).json({
-    error: {
-      message: error.message
-    }
-  });
-});
+//   res.status(status).json({
+//     error: {
+//       message: error.message
+//     }
+//   });
+// });
 
 // Start the server
 var server = app.listen(3000, function () {
