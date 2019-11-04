@@ -15,7 +15,7 @@ var pages = require('./pages');
 var authHelper = require('./authHelper');
 
 // require routes folder
-const users = require('../routes.users.js');
+//const users = require('../routes.users.js');
 
 // Configure express
 // Set up rendering of static files
@@ -31,11 +31,11 @@ app.use(session({
 }));
 
 // midddlewares
-app.use(logger('dev'));
+//app.use(logger('dev'));
 app.use(bodyParser.json());
 
 // Routes 
-app.use('/users', users);
+//app.use('/users', users);
 
 // Get the URl for OAuth loggin
 app.get('/', function (req, res) {
@@ -274,7 +274,7 @@ app.use((req, res, next) => {
 })
 
 //Error handler function
-appp.use((err, req, res, next) => {
+app.use((errs, req, res, next) => {
   const err = app.get('env') === 'development' ? err : {};
   const status = err.status || 500;
 
